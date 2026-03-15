@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](CHANGELOG.md)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green.svg)](extension/)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/lankamar/ai-intercom)
 
 ---
 
@@ -19,6 +20,19 @@ Permitir que Marcelo pueda chatear con Antigravity directamente desde el navegad
 ## Meta
 
 Extension Chrome + servidor Python local que actua como puente bidireccional real entre el browser y el agente de VS Code.
+
+---
+
+## Documentación
+
+| Documento | Descripción |
+|-----------|-------------|
+| [docs/VIABILITY.md](docs/VIABILITY.md) | Evaluación exhaustiva de viabilidad del proyecto |
+| [docs/UX_DEEP_SPEC.md](docs/UX_DEEP_SPEC.md) | Especificación UX profunda con temperatura dinámica |
+| [docs/NOTEBOOKLM_INSIGHTS.md](docs/NOTEBOOKLM_INSIGHTS.md) | Síntesis de investigación en NotebookLM |
+| [docs/PRD.md](docs/PRD.md) | Product Requirements Document |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Arquitectura del sistema |
+| [docs/instalacion.md](docs/instalacion.md) | Guía completa de instalación |
 
 ---
 
@@ -187,8 +201,11 @@ DESCONECTADO -- Bridge no esta corriendo
 - [x] Chrome Extension con Side Panel
 - [x] Native messaging host (Windows)
 - [x] Endpoints REST para Antigravity
-- [ ] Documentacion de instalacion detallada
-- [ ] Antigravity skill file (intercom_skill.py)
+- [x] Documentacion de instalacion detallada
+- [x] Antigravity skill file (intercom_skill.py)
+- [x] Codespaces dev container (.devcontainer/)
+- [x] Evaluacion de viabilidad (docs/VIABILITY.md)
+- [x] Especificacion UX con temperatura dinamica (docs/UX_DEEP_SPEC.md)
 - [ ] Iconos SVG definitivos
 - [ ] Test de integracion completa
 - [ ] Empaquetado .crx para distribucion
