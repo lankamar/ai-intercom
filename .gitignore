@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.log
+*.json.bak
+bridge.log
+brain.log
+inbox.json
+outbox.json
+.env
+antigravity-intercom-extension-id.txt
+node_modules/
+.DS_Store

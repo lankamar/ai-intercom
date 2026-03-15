@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antigravity Intercom v1.6.2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body>
+
+  <!-- Header minimalista -->
+  <header class="header">
+    <div class="header-left">
+      <div class="brain-icon">🧠</div>
+      <span class="header-title">Antigravity</span>
+      <span class="version-badge">v1.6.2</span>
+    </div>
+    <div class="status-indicator">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-text" id="statusText">Conectando...</span>
+    </div>
+  </header>
+
+  <!-- Área de Chat -->
+  <main class="chat-area" id="chatArea">
+    <!-- Los mensajes se inyectan aquí -->
+  </main>
+
+  <!-- Footer con Input Multilínea -->
+  <footer class="input-area">
+    <div class="input-container">
+      <textarea
+        id="msgInput"
+        class="msg-input"
+        placeholder="Escribe a Antigravity... (Ctrl+Enter)"
+        rows="1"
+      ></textarea>
+      <button id="sendBtn" class="send-btn" title="Enviar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <script src="panel.js"></script>
+</body>
+</html>
