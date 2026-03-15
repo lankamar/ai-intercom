@@ -5,10 +5,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](CHANGELOG.md)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green.svg)](extension/)
+[![Research RAG](https://img.shields.io/badge/Research-NotebookLM-orange.svg)](https://notebooklm.google.com/notebook/e7b41e3a-6498-43b0-9c53-41dd84c7e20a)
 
 ## 🎯 What is this?
 
 AI Intercom is a Chrome extension + local Python bridge that creates a **shared conversation context** between you and multiple AI assistants simultaneously.
+
+## 📚 Investigación y RAG
+Este proyecto utiliza un **NotebookLM** como fuente principal de conocimiento y RAG para la investigación activa:
+- **NotebookLM Source:** [AI Intercom Research](https://notebooklm.google.com/notebook/e7b41e3a-6498-43b0-9c53-41dd84c7e20a)
 
 Instead of copying and pasting context between ChatGPT, Claude, Perplexity, or your own agents — all AIs see the **same conversation thread** in real time.
 
