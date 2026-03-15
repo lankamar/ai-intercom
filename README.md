@@ -1,86 +1,208 @@
-# 🧠 AI Intercom — Local-First Multi-AI Context Bridge
+# AI Intercom — Intercomunicador Bidireccional Chrome + Antigravity
 
-> Connect multiple AI assistants in the same browser. No copy-paste. No external servers. No API keys required.
+> **"El que este abierto gobernara la conversacion del otro"** — Marcelo, 2025
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](CHANGELOG.md)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green.svg)](extension/)
 
-## 🎯 What is this?
+---
 
-AI Intercom is a Chrome extension + local Python bridge that creates a **shared conversation context** between you and multiple AI assistants simultaneously.
+## Vision
 
-Instead of copying and pasting context between ChatGPT, Claude, Perplexity, or your own agents — all AIs see the **same conversation thread** in real time.
+Un intercomunicador en tiempo real que conecta el navegador Chromium con el agente **Antigravity en VS Code**, eliminando el ida y vuelta manual entre ambos entornos durante el desarrollo de proyectos web.
 
-```
-You ──► Chrome Side Panel ──► Local Bridge (localhost:8765) ──► Antigravity
-                                                              ──► Any LLM Agent
-                                                              ──► Future: A2A Protocol
-```
+## Mision
 
-## ✨ Key Features
+Permitir que Marcelo pueda chatear con Antigravity directamente desde el navegador, y que Antigravity pueda ver y responder desde VS Code — **sin APIs externas, sin nube, 100% local**.
 
-- **Zero external dependencies** — runs entirely on localhost
-- **Real-time bidirectional chat** — WebSocket-based, sub-second latency  
-- **Multi-AI ready** — connect any LLM as a "brain" agent
-- **Context awareness** — automatically shares current tab URL/title
-- **Persistent history** — chat survives browser restarts
-- **Privacy-first** — your conversations never leave your machine
+## Meta
 
-## 🚀 Quick Start
-
-### 1. Install the bridge
-```bash
-cd bridge/
-pip install -r requirements.txt
-powershell -ExecutionPolicy Bypass -File install_host.ps1
-```
-
-### 2. Load the Chrome extension
-1. Open `chrome://extensions/`
-2. Enable Developer Mode
-3. Click "Load unpacked" → select the `extension/` folder
-
-### 3. Start chatting
-Open the Side Panel in Chrome — the bridge starts automatically.
-
-## 🏗️ Architecture
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for full technical details.
-
-| Component | Technology | Role |
-|---|---|---|
-| Bridge | Python + aiohttp + asyncio | WebSocket relay server |
-| Brain | Python + Gemini API | LLM response engine |
-| Extension | Chrome MV3 + Side Panel API | User interface |
-| Storage | chrome.storage.local + JSON | Message persistence |
-
-## 📋 Message Protocol
-
-```json
-{
-  "type": "chat | cmd | context | status | result",
-  "role": "user | assistant | system",
-  "source": "chrome | antigravity | agent_id",
-  "content": "...",
-  "timestamp": 1234567890
-}
-```
-
-## 🗺️ Roadmap
-
-- [x] v1.0 — Bidirectional chat Chrome ↔ 1 agent
-- [ ] v2.0 — Multi-agent: N AIs in same thread
-- [ ] v2.5 — No API key: local LLM (WebLLM/Ollama)
-- [ ] v3.0 — A2A protocol: cross-company agent interop
-
-## 🤝 Contributing
-
-PRs welcome. See [docs/PRD.md](docs/PRD.md) for the full product vision.
-
-## 📄 License
-
-MIT — do whatever you want, just keep the attribution.
+Extension Chrome + servidor Python local que actua como puente bidireccional real entre el browser y el agente de VS Code.
 
 ---
-*Built by [@lankamar](https://github.com/lankamar) with Antigravity + Perplexity Comet*
+
+## Arquitectura del Sistema
+
+```
+[Chrome Browser — Panel Lateral]
+         |
+         | WebSocket ws://localhost:8765/ws/chrome
+         |
+   [bridge.py — Servidor aiohttp local]
+         |
+    +----+----+
+    |         |
+ [inbox.json] [outbox.json]   <- Sistema de Bandeja
+    |         |
+    +----+----+
+         |
+ [Antigravity en VS Code]
+  GET /inbox  <- Lee mensajes de Chrome
+  POST /outbox <- Envia respuestas a Chrome
+```
+
+### Flujo de Datos
+
+```
+Marcelo escribe en Chrome  ->  WS /ws/chrome  ->  bridge.py  ->  inbox.json
+Antigravity lee inbox      <-  GET /inbox     <-  bridge.py
+Antigravity responde       ->  POST /outbox   ->  bridge.py  ->  Chrome
+Chrome recibe respuesta    <-  outbox_watcher <-  bridge.py
+```
+
+### Endpoints del Bridge (puerto 8765)
+
+| Endpoint | Metodo | Uso |
+|---|---|---|
+| `/ws/chrome` | WebSocket | Chrome se conecta aqui |
+| `/ws/antigravity` | WebSocket | Conexion directa del cerebro (opcional) |
+| `/inbox` | GET | Antigravity lee mensajes pendientes |
+| `/outbox` | POST | Antigravity envia respuesta a Chrome |
+| `/health` | GET | Estado del sistema |
+
+---
+
+## Estructura del Repositorio
+
+```
+ai-intercom/
++-- README.md                    <- Este archivo (PRD + Docs)
++-- bridge/
+|   +-- bridge.py                <- Servidor aiohttp WebSocket v1.6.0
+|   +-- brain.py                 <- Logica del cerebro / AI
+|   +-- host.json                <- Native messaging host config
+|   +-- install_host.ps1         <- Instalador PowerShell (Windows)
+|   +-- native_wrapper.bat       <- Wrapper para native messaging
+|   +-- requirements.txt         <- Python deps (aiohttp)
++-- extension/
+|   +-- manifest.json            <- Manifest V3
+|   +-- background/              <- Service Worker WebSocket
+|   +-- side_panel/              <- UI del intercomunicador
+|   +-- icons/                   <- Iconos de la extension
++-- docs/
+|   +-- instalacion.md           <- Guia de instalacion completa
+|   +-- arquitectura.md          <- Diagramas y decisiones
++-- .gitignore
++-- LICENSE
+```
+
+---
+
+## Instalacion Rapida
+
+### Requisitos
+
+- Python 3.9+ con `aiohttp`
+- Node.js (opcional, para scripts auxiliares)
+- Google Chrome o Chromium
+- Antigravity en VS Code
+
+### 1. Instalar el Bridge Python
+
+```bash
+cd bridge
+pip install -r requirements.txt
+python bridge.py
+# Bridge activo en http://localhost:8765
+```
+
+### 2. Instalar la Extension Chrome
+
+1. Abrir Chrome -> `chrome://extensions`
+2. Activar **Modo desarrollador** (esquina superior derecha)
+3. Click **Cargar sin empaquetar**
+4. Seleccionar la carpeta `extension/`
+5. El icono del intercomunicador aparece en la barra
+
+### 3. Usar con Antigravity en VS Code
+
+Con el bridge corriendo, Antigravity puede:
+
+```python
+# Leer mensajes desde Chrome
+import requests
+mensajes = requests.get('http://localhost:8765/inbox').json()
+for msg in mensajes:
+    print(f"Chrome dice: {msg['content']}")
+
+# Responder a Chrome
+requests.post('http://localhost:8765/outbox', json={
+    'type': 'chat',
+    'role': 'assistant',
+    'content': 'Respuesta de Antigravity'
+})
+```
+
+### 4. Verificar Estado
+
+```bash
+curl http://localhost:8765/health
+# {"status": "ok", "version": "1.6.0", "brain": "inbox_mode", ...}
+```
+
+---
+
+## Experiencia de Usuario
+
+### Chrome (Marcelo en el browser)
+- Panel lateral con historial de mensajes
+- Input de texto para escribir a Antigravity
+- Indicador de estado: verde (conectado) / rojo (desconectado)
+- Mensajes propios en azul, respuestas de Antigravity en verde
+
+### VS Code (Antigravity)
+- Lee `inbox.json` automaticamente o via GET /inbox
+- Responde via POST /outbox -> llega en tiempo real a Chrome
+- Conexion directa WebSocket disponible en /ws/antigravity
+- Log completo en `bridge/bridge.log`
+
+---
+
+## Estados del Sistema
+
+```
+CONECTADO    -- Chrome <-> Bridge <-> Antigravity WS directo
+INBOX_MODE   -- Chrome conectado, Antigravity usa HTTP (inbox/outbox)
+DESCONECTADO -- Bridge no esta corriendo
+```
+
+---
+
+## Stack Tecnologico (sin APIs externas)
+
+| Componente | Tecnologia | Razon |
+|---|---|---|
+| Extension Chrome | Manifest V3, Vanilla JS | Sin frameworks, maxima compatibilidad |
+| Bridge Server | Python aiohttp | Async, liviano, sin Express |
+| Comunicacion | WebSocket + HTTP REST | Bidireccional, tiempo real, local |
+| Persistencia | inbox.json / outbox.json | Sin base de datos |
+| Antigravity | HTTP requests locales | Integra con runtime existente |
+
+---
+
+## Roadmap
+
+- [x] Bridge Python con WebSocket y sistema inbox/outbox
+- [x] Chrome Extension con Side Panel
+- [x] Native messaging host (Windows)
+- [x] Endpoints REST para Antigravity
+- [ ] Documentacion de instalacion detallada
+- [ ] Antigravity skill file (intercom_skill.py)
+- [ ] Iconos SVG definitivos
+- [ ] Test de integracion completa
+- [ ] Empaquetado .crx para distribucion
+- [ ] Panel de configuracion (puerto, nombre)
+
+---
+
+## Autor
+
+**Marcelo — lankamar**  
+Hospital de Clinicas UBA | Proyecto AI Intercom  
+Powered by Antigravity (VS Code) + Comet (Perplexity)
+
+---
+
+*"Anfetaminas y esteroides al proyecto" — Marcelo, 2025*  
+*PRD v2.0 — Actualizado con arquitectura real del bridge*
