@@ -198,11 +198,8 @@ DESCONECTADO -- Bridge no esta corriendo
 
 ## Autor
 
-**Marcelo — lankamar**  
-Hospital de Clinicas UBA | Proyecto AI Intercom  
-Powered by Antigravity (VS Code) + Comet (Perplexity)
-
----
-
-*"Anfetaminas y esteroides al proyecto" — Marcelo, 2025*  
-*PRD v2.0 — Actualizado con arquitectura real del bridge*
+MARCELO OMAR LANCRY KAMYCKI (LANKAMAR)
+Diseñador de Tecnologías Educativas en Salud | 
+Implementador de Soluciones con IA & Codiseño Agéntico
+ "La intersección exacta donde la medicina humana 
+ se encuentra con el algoritmo. Sin ruido. Solo resultados."
