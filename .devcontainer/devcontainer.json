@@ -1,0 +1,55 @@
+{
+  "name": "AI Intercom — Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11-bullseye",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "forwardPorts": [8765],
+  "portsAttributes": {
+    "8765": {
+      "label": "AI Intercom Bridge",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "postCreateCommand": "pip install -r bridge/requirements.txt",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.pylint",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "christian-kohler.path-intellisense",
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+        "yzhang.markdown-all-in-one",
+        "bierner.markdown-mermaid",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.live-server"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter"
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.autoSave": "onFocusChange"
+      }
+    }
+  },
+
+  "remoteEnv": {
+    "BRIDGE_HOST": "0.0.0.0",
+    "BRIDGE_PORT": "8765",
+    "PYTHONPATH": "${containerWorkspaceFolder}"
+  }
+}

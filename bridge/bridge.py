@@ -23,8 +23,8 @@ from aiohttp import web, WSMsgType
 
 # --- Configuracion ---
 VERSION    = "1.6.0"
-HOST       = "localhost"
-PORT       = 8765
+HOST       = os.environ.get("BRIDGE_HOST", "localhost")
+PORT       = int(os.environ.get("BRIDGE_PORT", "8765"))
 BRIDGE_DIR = Path(__file__).parent
 
 INBOX_FILE  = BRIDGE_DIR / "inbox.json"   # Mensajes de Chrome para Antigravity
