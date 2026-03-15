@@ -192,6 +192,20 @@ async def health_handler(request):
         "inbox_pending":  inbox_count
     })
 
+async def root_handler(request):
+    return web.json_response({
+        "status": "ok",
+        "service": "ai-intercom-bridge",
+        "version": VERSION,
+        "endpoints": {
+            "health": "/health",
+            "inbox": "/inbox",
+            "outbox": "/outbox",
+            "ws_chrome": "/ws/chrome",
+            "ws_antigravity": "/ws/antigravity"
+        }
+    })
+
 # ─────────────────────────────────────────────
 #  Endpoint para que Antigravity lea el inbox
 # ─────────────────────────────────────────────
@@ -236,6 +250,7 @@ async def main():
             f.write_text("[]", encoding="utf-8")
 
     app = web.Application()
+    app.router.add_get( "/",               root_handler)
     app.router.add_get( "/ws/chrome",      ws_chrome_handler)
     app.router.add_get( "/ws/antigravity", ws_antigravity_handler)
     app.router.add_get( "/health",         health_handler)

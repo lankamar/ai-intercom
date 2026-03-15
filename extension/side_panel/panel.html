@@ -17,14 +17,31 @@
       <span class="header-title">Antigravity</span>
       <span class="version-badge">v1.6.2</span>
     </div>
-    <div class="status-indicator">
-      <span class="status-dot" id="statusDot"></span>
-      <span class="status-text" id="statusText">Conectando...</span>
+    <div class="header-right">
+      <div class="temp-pill" id="tempPill" title="Temp 0.50 | Modo balanceado" aria-label="Temperatura actual 0.50 en modo balanceado">
+        <span class="temp-label" id="tempLabel">Balanceado</span>
+        <div class="temp-track" aria-hidden="true">
+          <div class="temp-fill" id="tempFill"></div>
+        </div>
+      </div>
+      <div class="status-indicator" aria-live="polite" aria-atomic="true">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-text" id="statusText">Conectando...</span>
+      </div>
     </div>
   </header>
 
+  <section class="typing-row" id="typingRow" aria-live="polite" aria-atomic="true">
+    <div class="typing-indicator" id="typingIndicator" hidden>
+      <span class="typing-text" id="typingText">Antigravity esta escribiendo</span>
+      <span class="typing-dots" aria-hidden="true">
+        <i></i><i></i><i></i>
+      </span>
+    </div>
+  </section>
+
   <!-- Área de Chat -->
-  <main class="chat-area" id="chatArea">
+  <main class="chat-area" id="chatArea" role="log" aria-live="polite" aria-relevant="additions text" aria-label="Historial de chat">
     <!-- Los mensajes se inyectan aquí -->
   </main>
 
@@ -36,8 +53,9 @@
         class="msg-input"
         placeholder="Escribe a Antigravity... (Ctrl+Enter)"
         rows="1"
+        aria-label="Mensaje para Antigravity"
       ></textarea>
-      <button id="sendBtn" class="send-btn" title="Enviar">
+      <button id="sendBtn" class="send-btn" title="Enviar" aria-label="Enviar mensaje">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="22" y1="2" x2="11" y2="13"></line>
           <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -45,6 +63,8 @@
       </button>
     </div>
   </footer>
+
+  <div class="sr-only" id="liveRegion" aria-live="polite" aria-atomic="true"></div>
 
   <script src="panel.js"></script>
 </body>

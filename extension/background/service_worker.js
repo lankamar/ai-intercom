@@ -266,6 +266,10 @@ chrome.runtime.onConnect.addListener((port) => {
     const msg = messageQueue.shift();
     port.postMessage(msg);
   }
+
+  // Enviar contexto inicial para que el panel tenga URL/titulo desde el primer mensaje.
+  broadcastContext();
+
   port.onMessage.addListener((msg) => { if (msg.type === "chat" || msg.type === "context") sendToBridge(msg); });
   port.onDisconnect.addListener(() => panelPorts.delete(port));
 });
